@@ -31,7 +31,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IEUnitTestSrc\MonthTest.cs" />
+    <Compile Include="IEUnitTestSrc\RegionsTest.cs" />
     <Compile Include="IEUnitTestSrc\LoginTest.cs" />
   </ItemGroup>
   <ItemGroup>

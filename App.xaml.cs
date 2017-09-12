@@ -8,7 +8,7 @@ namespace IE
         {
             InitializeComponent();
 
-            MainPage = new IEPage();
+            MainPage = new NavigationPage( new IEPage() );
         }
 
         protected override void OnStart()
