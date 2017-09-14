@@ -1,32 +1,35 @@
 ﻿<Properties StartupConfiguration="{12FAF289-7D27-4AC8-99E2-75261E4AAA1C}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="CommonSrc/IEIntegration/IEProfile.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="CommonSrc/Controls/SelectableViewCell.cs">
     <Files>
-      <File FileName="IEUnitTestSrc/RegionsTest.cs" Line="19" Column="10" />
-      <File FileName="IEPage.xaml" Line="13" Column="1" />
-      <File FileName="IEPage.xaml.cs" Line="45" Column="86" />
-      <File FileName="CommonSrc/IEIntegration/IESession.cs" Line="170" Column="1" />
-      <File FileName="IEUnitTestSrc/LoginTest.cs" Line="32" Column="9" />
-      <File FileName="CommonSrc/Configuration/ILogging.cs" Line="7" Column="24" />
-      <File FileName="CommonSrc/IEIntegration/IEProfile.cs" Line="13" Column="45" />
-      <File FileName="Droid/MainActivity.cs" Line="15" Column="6" />
-      <File FileName="App.xaml.cs" Line="8" Column="10" />
-      <File FileName="App.xaml" Line="7" Column="1" />
-      <File FileName="Droid/Resources/values/styles.xml" Line="13" Column="36" />
-      <File FileName="MyPage.cs" Line="1" Column="1" />
-      <File FileName="CommonSrc/Pages/SettingsPage.xaml.cs" Line="35" Column="22" />
-      <File FileName="Helpers/Settings.cs" Line="52" Column="36" />
-      <File FileName="CommonSrc/Controls/MultiSelectListView.cs" Line="4" Column="32" />
-      <File FileName="CommonSrc/Controls/SelectableItem.cs" Line="6" Column="41" />
-      <File FileName="CommonSrc/Controls/SelectableObservableCollection.cs" Line="25" Column="50" />
-      <File FileName="CommonSrc/Controls/SelectableViewCell.cs" Line="6" Column="13" />
-      <File FileName="CommonSrc/Pages/SettingsPage.xaml" Line="66" Column="70" />
-      <File FileName="CommonSrc/Configuration/Regions.cs" Line="171" Column="3" />
-      <File FileName="CommonSrc/Configuration/Region.cs" Line="20" Column="2" />
+      <File FileName="CommonSrc/Configuration/IFileHelper.cs" Line="6" Column="32" />
+      <File FileName="CommonSrc/IEIntegration/IEDataSource.cs" Line="79" Column="19" />
+      <File FileName="CommonSrc/IEIntegration/IEMember.cs" Line="42" Column="1" />
+      <File FileName="CommonSrc/IEIntegration/IEProfile.cs" Line="16" Column="1" />
+      <File FileName="CommonSrc/IEIntegration/IESession.cs" Line="49" Column="13" />
+      <File FileName="CommonSrc/Utils/TimeScheduler.cs" Line="127" Column="47" />
+      <File FileName="Helpers/Settings.cs" Line="98" Column="63" />
+      <File FileName="CommonSrc/Pages/SettingsPage.xaml" Line="36" Column="67" />
+      <File FileName="CommonSrc/Pages/SettingsPage.xaml.cs" Line="16" Column="1" />
+      <File FileName="CommonSrc/Configuration/ILogging.cs" Line="1" Column="1" />
+      <File FileName="Droid/src/Configuration/Logger.cs" Line="22" Column="40" />
+      <File FileName="Droid/src/Configuration/FileHelper.cs" Line="7" Column="1" />
+      <File FileName="IEUnitTestSrc/RegionsTest.cs" Line="1" Column="1" />
+      <File FileName="IEUnitTestSrc/LoginTest.cs" Line="23" Column="62" />
+      <File FileName="IEPage.xaml" Line="30" Column="1" />
+      <File FileName="IEPage.xaml.cs" Line="10" Column="1" />
+      <File FileName="App.xaml.cs" Line="12" Column="50" />
+      <File FileName="CommonSrc/Pages/HomePage.xaml" Line="32" Column="1" />
+      <File FileName="CommonSrc/Pages/RegionSelectionPage.xaml.cs" Line="15" Column="32" />
+      <File FileName="CommonSrc/Pages/HomePage.xaml.cs" Line="67" Column="1" />
+      <File FileName="CommonSrc/Pages/RegionSelectionPage.xaml" Line="23" Column="1" />
+      <File FileName="CommonSrc/Controls/SelectableViewCell.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/andyboniface/Development/andyboniface-github/IE/CommonSrc/IEIntegration/IESession.cs" relfile="CommonSrc/IEIntegration/IESession.cs" line="55" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.ItemProperties.IE.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.BADA854C-5ACB-475C-B4F6-A70347C26071">

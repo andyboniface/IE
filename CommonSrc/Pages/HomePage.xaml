@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="IE.CommonSrc.Pages.HomePage">
+ <StackLayout BackgroundColor="White">
+  <StackLayout BackgroundColor="#838383" Orientation="Horizontal" VerticalOptions="Start">
+    <!-- top controls -->
+    <Image Source="icon.png" HeightRequest="40" Margin="5" x:Name="logo" />
+    <Image Source="Gear.png" HeightRequest="40" Margin="5" x:Name="settings" />
+    <Image Source="Favorite.png" HeightRequest="40" Margin="5" x:Name="favs" />
+    <Label TextColor="Lime" Text="Top!" VerticalOptions="Center" HorizontalOptions="Center" />
+  </StackLayout>
+
+  <StackLayout VerticalOptions="CenterAndExpand">
+    <!-- middle controls -->
+    <Label TextColor="Blue" Text="Welcome to Xamarin Forms!" VerticalOptions="Center" HorizontalOptions="Center" />
+    <Label TextColor="Blue" Text="Welcome to Xamarin Forms!" VerticalOptions="Center" HorizontalOptions="Center" />
+    <Label TextColor="Blue" Text="Welcome to Xamarin Forms!" VerticalOptions="Center" HorizontalOptions="Center" />
+    <Label TextColor="Blue" Text="Welcome to Xamarin Forms!" VerticalOptions="Center" HorizontalOptions="Center" />
+    <Label TextColor="Blue" Text="Welcome to Xamarin Forms!" VerticalOptions="Center" HorizontalOptions="Center" />
+    <Label TextColor="Blue" Text="Welcome to Xamarin Forms!" VerticalOptions="Center" HorizontalOptions="Center" />
+    <Label TextColor="Blue" Text="Welcome to Xamarin Forms!" VerticalOptions="Center" HorizontalOptions="Center" />
+  </StackLayout>
+
+  <StackLayout Orientation="Vertical" VerticalOptions="End">
+    <!-- bottom controls -->
+    <Label TextColor="Black" Text="Bottom!" VerticalOptions="Center" HorizontalOptions="Center" />
+    <Label TextColor="Black" Text="Bottom!" VerticalOptions="Center" HorizontalOptions="Center" />
+    <Label TextColor="Black" Text="Bottom!" VerticalOptions="Center" HorizontalOptions="Center" />
+    <Label TextColor="Black" Text="Bottom!" VerticalOptions="Center" HorizontalOptions="Center" />
+  </StackLayout>
+</StackLayout>
+</ContentPage>

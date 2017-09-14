@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using IE.CommonSrc.Configuration;
 using IE.CommonSrc.Controls;
 using IE.Helpers;
@@ -15,49 +14,61 @@ namespace IE.CommonSrc.Pages
 
             this.Title = "Settings";
 
-			this.Username.Text = Settings.UserName;
-            this.Password.Text = Settings.Password;
-            this.UnsolicitedMessages.IsToggled = Settings.IgnoreUnsolicitedMessages;
-            this.IgnoreVKs.IsToggled = Settings.IgnoreVKs;
-            this.IgnoreGifts.IsToggled = Settings.IgnoreGifts;
-
-            Regions regions = new Regions();
-
-            Items = new SelectableObservableCollection<Region>(regions.AvailableRegions);
-
-            int[] selectedRegions = Settings.SelectedRegions;
-
-            foreach( var item in Items ) {
-                foreach( var regId in selectedRegions ) {
-                    if ( regId == item.Data.Id ) {
-                        item.IsSelected = true;
-                        break;
-                    }
-                }
-            }
-            BindingContext = this;
+            this.ChangeRegionsButton.Clicked += (sender, e) => {
+                GotoRegionsPage();
+            };
+			this.PollingRate.ValueChanged += (sender, e) => 
+            {
+                this.PollingRateLabel.Text = String.Format("Polling Rate {0:F0} minutes", e.NewValue);    
+            };
 		}
 
-        protected override void OnDisappearing()
+		async void GotoRegionsPage()
+		{
+            await Navigation.PushAsync(new RegionSelectionPage());
+		}
+
+        protected override void OnAppearing() 
+        {
+			this.Username.Text = Settings.UserName;
+			this.Password.Text = Settings.Password;
+			this.UnsolicitedMessages.IsToggled = Settings.IgnoreUnsolicitedMessages;
+			this.IgnoreVKs.IsToggled = Settings.IgnoreVKs;
+			this.IgnoreGifts.IsToggled = Settings.IgnoreGifts;
+			this.SearchFemales.IsToggled = Settings.SearchForFemales;
+  			this.PollingRate.Value = Settings.PollingRate;
+			this.PollingRateLabel.Text = String.Format("Polling Rate {0:F0} minutes", Settings.PollingRate);
+
+			Regions regions = new Regions();
+
+			if (Settings.SelectedRegions.Length > 0)
+			{
+				string regionList = "";
+				foreach (int regionId in Settings.SelectedRegions)
+				{
+					if (regionList.Length > 0)
+					{
+						regionList = regionList + ", ";
+					}
+					regionList = regionList + regions.CountyById(regionId);
+				}
+				this.CurrentRegions.Text = "Regions: " + regionList;
+			}
+			else
+			{
+				this.CurrentRegions.Text = "Regions: None selected";
+			}
+		}
+
+		protected override void OnDisappearing()
         {
             Settings.UserName = this.Username.Text;
             Settings.Password = this.Password.Text;
             Settings.IgnoreUnsolicitedMessages = this.UnsolicitedMessages.IsToggled;
             Settings.IgnoreVKs = this.IgnoreVKs.IsToggled;
             Settings.IgnoreGifts = this.IgnoreGifts.IsToggled;
-
-            Settings.ClearRegions();
-            foreach (var item in Items)
-            {
-                if (item.IsSelected)
-                {
-                    Settings.AddRegion(item.Data.Id);
-                }
-            }
+            Settings.PollingRate = (int )this.PollingRate.Value;
+			Settings.SearchForFemales = this.SearchFemales.IsToggled;
         }
-
-		public SelectableObservableCollection<Region> Items { get; }
-		public bool EnableMultiSelect { get { return true; } }
-
 	}
 }

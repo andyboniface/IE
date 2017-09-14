@@ -1,92 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage
-    xmlns:ms="clr-namespace:IE.CommonSrc.Controls"
-    xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="IE.CommonSrc.Pages.SettingsPage">
- <StackLayout BackgroundColor="White" VerticalOptions="Fill">
- <StackLayout Padding="10" VerticalOptions="Start">
-    <StackLayout VerticalOptions="StartAndExpand" 
-              HorizontalOptions="FillAndExpand" 
-              Orientation="Horizontal" 
-              Padding="0" Spacing="1">
-
-        <Label HorizontalOptions="StartAndExpand" VerticalTextAlignment="Center"
-                HorizontalTextAlignment="End" TextColor="Black" Text="Username:" />
-    
-        <Entry VerticalOptions="Fill" 
-                        HorizontalOptions="FillAndExpand" PlaceholderColor="Silver" x:Name="Username" TextColor="Black" Placeholder="Username" />
+<ContentPage xmlns:ms="clr-namespace:IE.CommonSrc.Controls" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="IE.CommonSrc.Pages.SettingsPage">
+    <ScrollView>
+    <StackLayout BackgroundColor="White" VerticalOptions="Fill">
+        <StackLayout Padding="10" VerticalOptions="Start">
+            <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Padding="0" Spacing="1">
+                <Label HorizontalOptions="StartAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="End" TextColor="Black" Text="Username:" />
+                <Entry VerticalOptions="Fill" HorizontalOptions="FillAndExpand" PlaceholderColor="Silver" x:Name="Username" TextColor="Black" Placeholder="Username" />
+            </StackLayout>
+            <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Padding="0" Spacing="1">
+                <Label HorizontalOptions="StartAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="End" TextColor="Black" Text="Password:" />
+                <Entry IsPassword="true" VerticalOptions="Fill" HorizontalOptions="FillAndExpand" PlaceholderColor="Silver" x:Name="Password" TextColor="Black" Placeholder="Password" />
+            </StackLayout>
+            <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Padding="0" Spacing="1">
+                <Label VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Start" TextColor="Black" Text="Searching for female company" />
+                <Switch x:Name="SearchFemales" VerticalOptions="StartAndExpand" HorizontalOptions="EndAndExpand" />
+            </StackLayout>
+            <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Padding="0" Spacing="1">
+                <Label VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Start" TextColor="Black" Text="Ignore unsolicited messages" />
+                <Switch x:Name="UnsolicitedMessages" VerticalOptions="StartAndExpand" HorizontalOptions="EndAndExpand" />
+            </StackLayout>
+            <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Padding="0" Spacing="1">
+                <Label VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Start" TextColor="Black" Text="Ignore VKs" />
+                <Switch x:Name="IgnoreVKs" VerticalOptions="StartAndExpand" HorizontalOptions="EndAndExpand" />
+            </StackLayout>
+            <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Padding="0" Spacing="1">
+                <Label VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Start" TextColor="Black" Text="Ignore Gifts" />
+                <Switch x:Name="IgnoreGifts" VerticalOptions="StartAndExpand" HorizontalOptions="EndAndExpand" />
+            </StackLayout>
+            <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Padding="0" Spacing="1">
+                <Label x:Name="PollingRateLabel" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Start" TextColor="Black" Text="Polling Rate 10 minutes" />
+                <Stepper x:Name="PollingRate" VerticalOptions="StartAndExpand" HorizontalOptions="EndAndExpand" Minimum="5" Maximum="60" Value="10" Increment="5" />
+            </StackLayout>
+            <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Padding="0" Spacing="1">
+                <Label x:Name="CurrentRegions" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Start" TextColor="Black" Text="Regions" />
+                <Button x:Name="ChangeRegionsButton" Text="Change" VerticalOptions="StartAndExpand" HorizontalOptions="EndAndExpand" />
+            </StackLayout>
+        </StackLayout>
     </StackLayout>
-    <StackLayout VerticalOptions="StartAndExpand" 
-              HorizontalOptions="FillAndExpand" 
-              Orientation="Horizontal" 
-              Padding="0" Spacing="1">
-
-        <Label HorizontalOptions="StartAndExpand" VerticalTextAlignment="Center"
-                HorizontalTextAlignment="End" TextColor="Black" Text="Password:" />
-    
-        <Entry IsPassword="true" VerticalOptions="Fill" 
-                        HorizontalOptions="FillAndExpand" PlaceholderColor="Silver" x:Name="Password" TextColor="Black" Placeholder="Password" />
-    </StackLayout>
-
-        <StackLayout VerticalOptions="StartAndExpand" 
-                  HorizontalOptions="FillAndExpand" 
-                  Orientation="Horizontal" 
-                  Padding="0" Spacing="1">
-
-            <Label  VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand"
-                    HorizontalTextAlignment="Start" TextColor="Black" Text="Ignore unsolicited messages" />
-        
-            <Switch x:Name="UnsolicitedMessages" VerticalOptions="StartAndExpand" 
-                        HorizontalOptions="EndAndExpand"/>
-        </StackLayout>
-        
-        <StackLayout VerticalOptions="StartAndExpand" 
-                  HorizontalOptions="FillAndExpand" 
-                  Orientation="Horizontal" 
-                  Padding="0" Spacing="1">
-
-            <Label  VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand"
-                    HorizontalTextAlignment="Start" TextColor="Black" Text="Ignore VKs" />
-        
-            <Switch x:Name="IgnoreVKs" VerticalOptions="StartAndExpand" 
-                        HorizontalOptions="EndAndExpand"/>
-        </StackLayout>
-
-                <StackLayout VerticalOptions="StartAndExpand" 
-                  HorizontalOptions="FillAndExpand" 
-                  Orientation="Horizontal" 
-                  Padding="0" Spacing="1">
-
-            <Label  VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand"
-                    HorizontalTextAlignment="Start" TextColor="Black" Text="Ignore Gifts" />
-        
-            <Switch x:Name="IgnoreGifts" VerticalOptions="StartAndExpand" 
-                        HorizontalOptions="EndAndExpand"/>
-        </StackLayout>
-
-            <Label TextColor="Fuchsia" Text="Select regions to search" VerticalOptions="Center" HorizontalOptions="Center" />
-
-            <ListView ItemsSource="{Binding Items}"
-                  ms:MultiSelectListView.IsMultiSelect="{Binding EnableMultiSelect}"
-                  Grid.Row="2" Grid.ColumnSpan="3">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ms:SelectableViewCell>
-
-                        <!-- set the selected indicator (optional) -->
-                        <ms:SelectableViewCell.CheckView>
-                            <BoxView Color="Red" WidthRequest="12" HeightRequest="12" />
-                        </ms:SelectableViewCell.CheckView>
-
-                        <!-- set the content (optional) -->
-                        <ms:SelectableViewCell.DataView>
-                            <Label TextColor="Black" Text="{Binding Name}" />
-                        </ms:SelectableViewCell.DataView>
-
-                    </ms:SelectableViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
-</StackLayout>
-</StackLayout>
+        </ScrollView>
 </ContentPage>

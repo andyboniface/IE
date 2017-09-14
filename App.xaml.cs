@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using IE.CommonSrc.Pages;
+using Xamarin.Forms;
 
 namespace IE
 {
@@ -8,7 +9,7 @@ namespace IE
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage( new IEPage() );
+            MainPage = new NavigationPage( new HomePage() );
         }
 
         protected override void OnStart()

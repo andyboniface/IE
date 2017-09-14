@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns:ms="clr-namespace:IE.CommonSrc.Controls"  xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="IE.CommonSrc.Pages.RegionSelectionPage">
+    <StackLayout BackgroundColor="White" VerticalOptions="Fill">
+            <Label TextColor="Fuchsia" Text="Select regions to search" VerticalOptions="Center" HorizontalOptions="Center" />
+            <ListView ItemsSource="{Binding Items}" ms:MultiSelectListView.IsMultiSelect="{Binding EnableMultiSelect}" Grid.Row="2" Grid.ColumnSpan="3">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ms:SelectableViewCell>
+                            <!-- set the selected indicator (optional) -->
+                            <ms:SelectableViewCell.CheckView>
+                                <BoxView Color="Red" WidthRequest="12" HeightRequest="12" />
+                            </ms:SelectableViewCell.CheckView>
+                            <!-- set the content (optional) -->
+                            <ms:SelectableViewCell.DataView>
+                                <Label TextColor="Black" Text="{Binding Name}" />
+                            </ms:SelectableViewCell.DataView>
+                        </ms:SelectableViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+</ContentPage>

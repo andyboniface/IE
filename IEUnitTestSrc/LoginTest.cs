@@ -20,12 +20,12 @@ namespace IEUnitTest.IEUnitTestSrc
 			Assert.True(session.LoggedIn, "State of LoggedIn on IESession was not the expected value");
 
 
-            var searchResults = await session.Search(true, 18, 99, "33,50");
+            var searchResults = await session.Search(true, 20, 99, "33,50");
 
             result = await session.Logout();
 			Assert.False(session.LoggedIn, "State of LoggedIn on IESession was not the expected value");
 
-
+            LogInfo( "Found " + searchResults.Count + " results");
 
 			return;
 		}

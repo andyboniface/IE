@@ -62,6 +62,12 @@ namespace IE.Helpers
             }
         }
 
+		public static int PollingRate
+		{
+			get => AppSettings.GetValueOrDefault(nameof(PollingRate), 10);
+			set => AppSettings.AddOrUpdateValue(nameof(PollingRate), value);
+		}
+
 		public static string Regions
 		{
 			get => AppSettings.GetValueOrDefault(nameof(Regions), string.Empty);
@@ -84,6 +90,12 @@ namespace IE.Helpers
 		{
 			get => AppSettings.GetValueOrDefault(nameof(IgnoreUnsolicitedMessages), false);
 			set => AppSettings.AddOrUpdateValue(nameof(IgnoreUnsolicitedMessages), value);
+		}
+
+		public static bool SearchForFemales
+		{
+			get => AppSettings.GetValueOrDefault(nameof(SearchForFemales), false);
+			set => AppSettings.AddOrUpdateValue(nameof(SearchForFemales), value);
 		}
 
 		public static bool IgnoreVKs
