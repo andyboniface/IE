@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using IE.CommonSrc.Configuration;
+using IE.CommonSrc.ExternalDB;
 using IE.CommonSrc.Utils;
 using IE.Helpers;
 using SQLite;
@@ -9,61 +12,247 @@ using Xamarin.Forms;
 
 namespace IE.CommonSrc.IEIntegration
 {
+	static class Extensions
+	{
+		public static void Sort<T>(this ObservableCollection<T> collection) where T : IComparable
+		{
+			List<T> sorted = collection.OrderBy(x => x).ToList();
+            for (int i = 0; i < sorted.Count(); i++)
+            {
+                collection.Move(collection.IndexOf(sorted[i]), i);
+            }
+		}
+	}
+
     public class IEDataSource
     {
-        private SQLiteAsyncConnection _database;
-        private Dictionary<string, IEMember> _allMembers = new Dictionary<string, IEMember>();
-        private IESession _session;
+        //private SQLiteAsyncConnection _database;
+        private readonly ExternalDBService _externalDb;
+        private readonly IESession _session;
+        private readonly ILogging _logger;
         public event Action OnNewMembersFound;
         private const int INITIAL_DELAY = 5;
         private const int POST_LOGIN_DELAY = 10;
+        private const int NO_LOGIN_DETAILS_DELAY = 60;
+        private const string DS_TASK_NAME = "IEDataSource";
+        private static IEDataSource _instance;
 
-        public IEDataSource()
+        public static IEDataSource GetInstance()
         {
-            string dbPath = DependencyService.Get<IFileHelper>().GetLocalFilePath("iedb.db3");
-            _database = new SQLiteAsyncConnection(dbPath);
-            _database.CreateTableAsync<IEMember>( CreateFlags.None ).Wait();
-
-            var table = _database.Table<IEMember>().ToListAsync();
-            table.Wait();
-
-            foreach( var member in table.Result)
-            {
-                _allMembers.Add(member.ProfileId, member);
+            if ( _instance == null ) {
+                _instance = new IEDataSource();
             }
-
-            ILogging logger = DependencyService.Get<ILogging>();
-            _session = new IESession(logger);
-
-            //
-            // Start our main scheduler....
-            //
-            TimeScheduler.GetTimeScheduler().AddTask("main", TimeSpan.FromSeconds(INITIAL_DELAY), () => OnTimedEvent());
+            return _instance;
         }
 
-        public void SaveMember(IEMember member) {
+        private IEDataSource()
+        {
+			_logger = DependencyService.Get<ILogging>();
+
+			RejectedItems = new ObservableCollection<IEMember>();
+			ActiveItems = new ObservableCollection<IEMember>();
+			NewItems = new ObservableCollection<IEMember>();
+
+			Members = new Dictionary<string, IEMember>();
+            //string dbPath = DependencyService.Get<IFileHelper>().GetLocalFilePath("iedb.db3");
+            //_database = new SQLiteAsyncConnection(dbPath);
+            //_database.CreateTableAsync<IEMember>( CreateFlags.None ).Wait();
+            _externalDb = new ExternalDBService();
+
+            _logger.LogInfo("Reading database table for existing members");
+
+			/*
+            var table = _database.Table<IEMember>().ToListAsync();
+            table.Wait();
+            */
+
+			/*
+            var table = _externalDb.FetchAllMembers(Settings.UserName);
+            table.Wait();
+
+            _logger.LogInfo("Found " + table.Result.Count + " members in databse");
+            foreach( var member in table.Result)
+            {
+                Members.Add(member.ProfileId, member);
+                switch(member.Status) 
+                {
+                    case IEMember.MEMBER_NEW:
+                        NewItems.Add(member);
+                        break;
+                    case IEMember.MEMBER_REJECTED:
+                        RejectedItems.Add(member);
+                        break;
+                    default:
+                        ActiveItems.Add(member);
+                        break;
+                }
+            }
+
+            NewItems.Sort();
+            RejectedItems.Sort();
+            ActiveItems.Sort();
+            */
+
+			_session = new IESession(_logger);
+            Running = false;
+        }
+
+        private async Task<TimeSpan> LoadFromExternalDatabase()
+        {
+			var table = await _externalDb.FetchAllMembers(Settings.UserName);
+
+			_logger.LogInfo("Found " + table.Count + " members in databse");
+			foreach (var member in table)
+			{
+				Members.Add(member.ProfileId, member);
+				switch (member.Status)
+				{
+					case IEMember.MEMBER_NEW:
+						NewItems.Add(member);
+						break;
+					case IEMember.MEMBER_REJECTED:
+						RejectedItems.Add(member);
+						break;
+					default:
+						ActiveItems.Add(member);
+						break;
+				}
+			}
+
+			NewItems.Sort();
+			RejectedItems.Sort();
+			ActiveItems.Sort();
+
+			TimeScheduler.GetTimeScheduler().AddTask(DS_TASK_NAME, TimeSpan.FromSeconds(INITIAL_DELAY), () => OnTimedEvent());
+			return TimeScheduler.STOP_TIMER;                // This stops us being re-scheduled
+		}
+
+
+		public bool Running { get; private set; }
+        protected Dictionary<string, IEMember> Members { get; private set; }
+
+		public ObservableCollection<IEMember> RejectedItems { get; private set; }
+		public ObservableCollection<IEMember> ActiveItems { get; private set; }
+		public ObservableCollection<IEMember> NewItems { get; private set; }
+
+		public void StartDataSource() 
+        {
+			//
+			// Start our main scheduler....
+			//
+			TimeScheduler.GetTimeScheduler().AddTask(DS_TASK_NAME, TimeSpan.FromSeconds(INITIAL_DELAY), () => LoadFromExternalDatabase());
+            Running = true;
+		}
+
+
+        public void StopDataSource() 
+        {
+            TimeScheduler.GetTimeScheduler().RemoveTask(DS_TASK_NAME);
+            Running = false;
+        }
+
+        public void ChangeMemberStatus(IEMember member, int newStatus) {
+            switch(member.Status)
+            {
+                case IEMember.MEMBER_NEW:
+                    NewItems.Remove(member);
+                    break;
+                case IEMember.MEMBER_REJECTED:
+                    RejectedItems.Remove(member);
+                    break;
+                default:
+                    ActiveItems.Remove(member);
+                    break;
+            }
+            member.Status = newStatus;
+
+			switch (member.Status)
+			{
+				case IEMember.MEMBER_NEW:
+					NewItems.Add(member);
+					break;
+				case IEMember.MEMBER_REJECTED:
+					RejectedItems.Add(member);
+					break;
+				default:
+					ActiveItems.Add(member);
+					break;
+			}
+
+			NewItems.Sort();
+			RejectedItems.Sort();
+			ActiveItems.Sort();
+
+            SaveMember(member);
+        }
+
+        private async void SaveMember(IEMember member) {
+
+            _logger.LogInfo("Saving member " + member.Id + " profile=" + member.Username + " Status=" + member.Status);
+
+            if ( member.Id == 0 ) {
+                IEMember newMember = await _externalDb.AddNewMember(Settings.UserName, member);
+                if (newMember != null)
+                {
+
+                    member.Id = newMember.Id;
+                    Members.Add(member.ProfileId, member);
+                }
+            }
+            else
+            {
+                IEMember newMember = await _externalDb.ModifyMember(Settings.UserName, member);
+				if (Members.TryGetValue(member.ProfileId, out IEMember prevMember))
+				{
+					Members.Remove(member.ProfileId);
+				}
+				Members.Add(member.ProfileId, member);
+			}
+            /*
             if ( member.Id == 0 ) 
             {
                 _database.InsertAsync(member).Wait(); 
-                _allMembers.Add(member.ProfileId, member);
+                Members.Add(member.ProfileId, member);
             }
             else
             {
                 _database.UpdateAsync(member).Wait();
-                IEMember prevMember;
-
-                if ( _allMembers.TryGetValue(member.ProfileId, out prevMember)) {
-                    _allMembers.Remove(member.ProfileId);
+                if ( Members.TryGetValue(member.ProfileId, out IEMember prevMember)) {
+                    Members.Remove(member.ProfileId);
                 }
-                _allMembers.Add(member.ProfileId, member);
+                Members.Add(member.ProfileId, member);
             }
+            */
+        }
+
+        public void GetMemberProfile(IEMember member) {
+            TimeScheduler.GetTimeScheduler().AddTask(DS_TASK_NAME + member.ProfileId, TimeSpan.FromSeconds(0), () => InternalGetMemberProfile(member));
+		}
+
+        private async Task<TimeSpan> InternalGetMemberProfile(IEMember member) {
+
+            if ((member.FetchedExtraData == null) || ((DateTime.Now - member.FetchedExtraData).TotalDays > 10))
+            {
+                // Never got extra profile data - need to fetch it...or it was over 10 days ago...
+                if (Settings.LoginDetailsSupplied())
+                {
+                    // Not logged in currently - we should try to login now....
+                    bool state = await _session.Login(Settings.UserName, Settings.Password);
+                    if ( state ) {
+                        await _session.GetProfile(member);
+
+                        await _session.Logout();
+                        SaveMember(member);                                     // Remember the changes
+                        member.FirePropertyChangeEvent();                       // Tell anyone who cares
+                    }
+                }
+            }
+            return TimeScheduler.STOP_TIMER;                // This stops us being re-scheduled
         }
 
         public IEMember GetMember(string profileId)
         {
-            IEMember member;
-
-            if (_allMembers.TryGetValue(profileId, out member))
+            if (Members.TryGetValue(profileId, out IEMember member))
             {
                 return member;
             }
@@ -77,7 +266,7 @@ namespace IE.CommonSrc.IEIntegration
             {
                 // We are currently logged in - therefore we should try to pull in some useful data - looking for new people
                 //
-                DoSearch(false);
+                await DoSearch(false);
 
                 // Now we have everything we need - we should logoff.
                 //
@@ -85,12 +274,22 @@ namespace IE.CommonSrc.IEIntegration
             }
             else
             {
-                // Not logged in currently - we should try to login now....
-                bool state = await _session.Login(Settings.UserName, Settings.Password);
-                if ( state ) {
-                    // This means we are now logged in - we want to come back to the timed event quicker - rather than
-                    // wait for the polling interval again...
-                    return TimeSpan.FromSeconds(POST_LOGIN_DELAY);                // Wait 10 seconds - then we can look for some data.
+                if (Settings.LoginDetailsSupplied())
+                {
+                    // Not logged in currently - we should try to login now....
+                    bool state = await _session.Login(Settings.UserName, Settings.Password);
+                    if (state)
+                    {
+                        // This means we are now logged in - we want to come back to the timed event quicker - rather than
+                        // wait for the polling interval again...
+                        return TimeSpan.FromSeconds(POST_LOGIN_DELAY);                // Wait 10 seconds - then we can look for some data.
+                    }
+					return TimeSpan.FromSeconds(NO_LOGIN_DETAILS_DELAY);
+				}
+                else
+                {
+                    // We don't have any login details yet - wait a bit and try again...
+                    return TimeSpan.FromSeconds(NO_LOGIN_DETAILS_DELAY);
                 }
             }
             return TimeSpan.FromMinutes(Settings.PollingRate);
@@ -99,21 +298,21 @@ namespace IE.CommonSrc.IEIntegration
         /*
          * This method is used to search for users who are currently logged in
          */
-        private async void DoSearch( bool byLogin) 
+        private async Task<bool> DoSearch( bool byLogin) 
         {
             List<IEProfile> profiles;
+			bool newMemberFound = false;
 
-            if (byLogin)
+			if (byLogin)
             {
-                profiles = await _session.OnLine(Settings.SearchForFemales, Settings.MinAge, Settings.MinAge, Settings.Regions);
+                profiles = await _session.OnLine(Settings.SearchForFemales, Settings.MinAge, Settings.MinAge, Settings.Regions, Settings.FetchCount);
             }
             else
             {
-                profiles = await _session.Search(Settings.SearchForFemales, Settings.MinAge, Settings.MaxAge, Settings.Regions);
+                profiles = await _session.Search(Settings.SearchForFemales, Settings.MinAge, Settings.MaxAge, Settings.Regions, Settings.FetchCount);
             }
             if (profiles != null)
             {
-                bool newMemberFound = false;
 
                 foreach (var profile in profiles)
                 {
@@ -122,27 +321,30 @@ namespace IE.CommonSrc.IEIntegration
                     if (member == null)
                     {
                         // We should add them....
-                        member = new IEMember();
-                        member.ProfileId = profile.ProfileId;
-                        member.Status = IEMember.MEMBER_NEW;
-                        newMemberFound = true;
+                        member = new IEMember()
+                        {
+                            ProfileId = profile.ProfileId,
+							Region = profile.Location,
+						    Status = IEMember.MEMBER_NEW
+                        };
+                        NewItems.Add(member);
+						NewItems.Sort();
+						newMemberFound = true;
                     }
                     member.Username = profile.Name;
-                    member.Region = profile.Location;
                     member.Age = profile.Age;
                     member.ThumbnailUrl = profile.ThumbnailUrl;
                     member.PartialSummary = profile.PartialSummary;
                     SaveMember(member);
                 }
 
-                if (newMemberFound)
+                if (newMemberFound && OnNewMembersFound != null)
                 {
-                    if (OnNewMembersFound != null)
-                    {
-                        OnNewMembersFound();
-                    }
+                    OnNewMembersFound();
                 }
             }
+
+            return newMemberFound;
 		}
 
 	}

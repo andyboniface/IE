@@ -9,7 +9,7 @@ namespace IEUnitTest.IEUnitTestSrc
 	[TestFixture]
     public class LoginTest : ILogging
     {
-		[Test]
+		//[Test]
 		public async Task RunLoginTest()
         {
             IESession session = new IESession(this);

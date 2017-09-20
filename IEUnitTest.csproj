@@ -33,6 +33,8 @@
   <ItemGroup>
     <Compile Include="IEUnitTestSrc\RegionsTest.cs" />
     <Compile Include="IEUnitTestSrc\LoginTest.cs" />
+    <Compile Include="IEUnitTestSrc\ProfileTest.cs" />
+    <Compile Include="IEUnitTestSrc\ExternalDBTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

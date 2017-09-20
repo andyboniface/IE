@@ -17,8 +17,9 @@ namespace IE.CommonSrc.Pages
 			Regions regions = new Regions();
 
 			Items = new SelectableObservableCollection<Region>(regions.AvailableRegions);
+            List<Region> itemsToMove = new List<Region>();
 
-			int[] selectedRegions = Settings.SelectedRegions;
+            int[] selectedRegions = Settings.SelectedRegions;
 
 			foreach (var item in Items)
 			{
@@ -27,10 +28,17 @@ namespace IE.CommonSrc.Pages
 					if (regId == item.Data.Id)
 					{
 						item.IsSelected = true;
+                        itemsToMove.Add(item.Data);
 						break;
 					}
 				}
 			}
+            int newIndex = 0;
+            // Move our selected items to the top of the list
+            foreach( var item in itemsToMove ) {
+                int origIdx = Items.IndexOf(item);
+                Items.Move(origIdx, newIndex++);
+            }
 			BindingContext = this;
 
 		}

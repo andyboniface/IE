@@ -11,6 +11,7 @@
                 <Label HorizontalOptions="StartAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="End" TextColor="Black" Text="Password:" />
                 <Entry IsPassword="true" VerticalOptions="Fill" HorizontalOptions="FillAndExpand" PlaceholderColor="Silver" x:Name="Password" TextColor="Black" Placeholder="Password" />
             </StackLayout>
+            <Label TextColor="#f2436f" Text="Search Criteria" VerticalOptions="Center" HorizontalOptions="Center" />
             <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Padding="0" Spacing="1">
                 <Label VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Start" TextColor="Black" Text="Searching for female company" />
                 <Switch x:Name="SearchFemales" VerticalOptions="StartAndExpand" HorizontalOptions="EndAndExpand" />
@@ -32,8 +33,12 @@
                 <Stepper x:Name="PollingRate" VerticalOptions="StartAndExpand" HorizontalOptions="EndAndExpand" Minimum="5" Maximum="60" Value="10" Increment="5" />
             </StackLayout>
             <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Padding="0" Spacing="1">
+                <Label x:Name="FetchCountLabel" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Start" TextColor="Black" Text="Fetch 20 members" />
+                <Stepper x:Name="FetchCount" VerticalOptions="StartAndExpand" HorizontalOptions="EndAndExpand" Minimum="5" Maximum="60" Value="20" Increment="5" />
+            </StackLayout>
+            <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Padding="0" Spacing="1">
                 <Label x:Name="CurrentRegions" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Start" TextColor="Black" Text="Regions" />
-                <Button x:Name="ChangeRegionsButton" Text="Change" VerticalOptions="StartAndExpand" HorizontalOptions="EndAndExpand" />
+                <Button BackgroundColor="#f2436f" x:Name="ChangeRegionsButton" Text="Change" VerticalOptions="StartAndExpand" HorizontalOptions="EndAndExpand" />
             </StackLayout>
         </StackLayout>
     </StackLayout>

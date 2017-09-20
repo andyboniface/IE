@@ -39,6 +39,18 @@
     <EmbeddedResource Include="CommonSrc\Pages\RegionSelectionPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="CommonSrc\Pages\NewMemberListPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CommonSrc\Pages\RejectedMembersListPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CommonSrc\Pages\ActiveMembersListPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CommonSrc\Pages\ProfilePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -71,6 +83,22 @@
     <Compile Include="CommonSrc\Pages\RegionSelectionPage.xaml.cs">
       <DependentUpon>RegionSelectionPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CommonSrc\Pages\NewMemberListPage.xaml.cs">
+      <DependentUpon>NewMemberListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CommonSrc\Pages\RejectedMembersListPage.xaml.cs">
+      <DependentUpon>RejectedMembersListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CommonSrc\Pages\ActiveMembersListPage.xaml.cs">
+      <DependentUpon>ActiveMembersListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CommonSrc\Pages\ProfilePage.xaml.cs">
+      <DependentUpon>ProfilePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CommonSrc\ExternalDB\ExternalDBService.cs" />
+    <Compile Include="CommonSrc\ExternalDB\ExternalDBCommand.cs" />
+    <Compile Include="CommonSrc\ExternalDB\ExternalDBReply.cs" />
+    <Compile Include="Helpers\DesignTimeHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">
@@ -103,6 +131,9 @@
     <Reference Include="SQLitePCLRaw.batteries_v2">
       <HintPath>packages\SQLitePCLRaw.bundle_green.1.1.8\lib\portable-net45+netcore45+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLitePCLRaw.batteries_v2.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>packages\Newtonsoft.Json.10.0.3\lib\portable-net45+win8+wp8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -114,6 +145,7 @@
     <Folder Include="CommonSrc\Pages\" />
     <Folder Include="CommonSrc\Controls\" />
     <Folder Include="CommonSrc\Utils\" />
+    <Folder Include="CommonSrc\ExternalDB\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="packages\Xamarin.Forms.2.3.4.270\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('packages\Xamarin.Forms.2.3.4.270\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />

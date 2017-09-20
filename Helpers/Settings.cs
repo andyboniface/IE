@@ -62,6 +62,24 @@ namespace IE.Helpers
             }
         }
 
+        public static bool LoginDetailsSupplied() {
+			if ((String.IsNullOrEmpty(UserName)) || (String.IsNullOrWhiteSpace(UserName)))
+			{
+				return false;
+			}
+            if ((String.IsNullOrEmpty(Password)) || (String.IsNullOrWhiteSpace(Password)))
+			{
+				return false;
+			}
+            return true;
+		}
+
+		public static int FetchCount
+		{
+			get => AppSettings.GetValueOrDefault(nameof(FetchCount), 20);
+			set => AppSettings.AddOrUpdateValue(nameof(FetchCount), value);
+		}
+
 		public static int PollingRate
 		{
 			get => AppSettings.GetValueOrDefault(nameof(PollingRate), 10);

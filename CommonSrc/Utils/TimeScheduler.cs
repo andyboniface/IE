@@ -10,6 +10,7 @@ namespace IE.CommonSrc.Utils
 		static private TimeScheduler scheduler_;
 		private IDictionary<string, TimeSchedulerTask> currentTasks;
         private bool timerRunning_ = true;
+        public static TimeSpan STOP_TIMER = TimeSpan.FromMilliseconds(-1);
 
 		private TimeScheduler()
 		{
@@ -67,12 +68,15 @@ namespace IE.CommonSrc.Utils
 									LogMessage("Task " + task.TaskName + " faulted=" + func.Exception.Message + " stack=" + func.Exception.StackTrace);
 								}
 
-								//
-								// Now we need to re-schedule it....
-								//
-								task.SetNextStartTime(func.Result);
-								LogMessage("Rescheduling task " + task.TaskName + " for " + task.TaskStartTime);
-								currentTasks.Add(task.TaskName, task);      // Put back onto queue for next time....
+                                //
+                                // Now we need to re-schedule it....
+                                //
+                                if (! func.Result.Equals(STOP_TIMER))
+                                {
+                                    task.SetNextStartTime(func.Result);
+                                    LogMessage("Rescheduling task " + task.TaskName + " for " + task.TaskStartTime);
+                                    currentTasks.Add(task.TaskName, task);      // Put back onto queue for next time....
+                                }
 							}
 							else
 							{
@@ -84,6 +88,7 @@ namespace IE.CommonSrc.Utils
 				catch (Exception e)
 				{
 					LogMessage("Runner has errored - " + e.Message);
+                    LogMessage("Stack=" + e.StackTrace);
 				}
 			}
 		}

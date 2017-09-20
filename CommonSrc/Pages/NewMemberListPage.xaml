@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns:ms="clr-namespace:IE.CommonSrc.Controls" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="IE.CommonSrc.Pages.NewMemberListPage">
+    <StackLayout BackgroundColor="White" VerticalOptions="Fill">
+        <ListView x:Name="MemberListView" ItemSelected="OnSelected" RowHeight="150" ItemsSource="{Binding Items}" Grid.Row="2" Grid.ColumnSpan="3">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                                 <ViewCell.ContextActions>
+            <MenuItem Clicked="OnAccept" CommandParameter="{Binding .}"
+               Text="Accept" />
+            <MenuItem Clicked="OnReject" CommandParameter="{Binding .}"
+               Text="Reject" IsDestructive="True" />
+         </ViewCell.ContextActions>
+
+                        <StackLayout BackgroundColor="#eee" Orientation="Vertical">
+                            <StackLayout Orientation="Horizontal" Margin="5">
+                                <Image HeightRequest="100" WidthRequest="100" Source="{Binding ThumbnailUrl}" />
+                                <StackLayout Orientation="Vertical">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="{Binding UsernameAndAge}" TextColor="#f2436f" />
+                                        <Label Text="{Binding Region}" HorizontalOptions="EndAndExpand" TextColor="#f2436f" />
+                                    </StackLayout>
+                                    <Label LineBreakMode="WordWrap" TextColor="Black" Text="{Binding PartialSummary}" />
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>

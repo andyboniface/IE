@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="IE.CommonSrc.Pages.ProfilePage">
+    <ScrollView>
+    <StackLayout BackgroundColor="White" VerticalOptions="Fill">
+        <Image HeightRequest="200" WidthRequest="200" Source="{Binding ThumbnailUrl}" />
+
+        <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label TextColor="#f2436f" Text="Race:" Grid.Row="0" Grid.Column="0" />
+                <Label TextColor="Black" Text="{Binding Race}" Grid.Row="0" Grid.Column="1" />
+                <Label TextColor="#f2436f" Text="Eye Colour:" Grid.Row="0" Grid.Column="2" />
+                <Label TextColor="Black" Text="{Binding EyeColour}" Grid.Row="0" Grid.Column="3" />
+
+                <Label TextColor="#f2436f" Text="Height:" Grid.Row="1" Grid.Column="0" />
+                <Label TextColor="Black" Text="{Binding Height}" Grid.Row="1" Grid.Column="1" />
+                <Label TextColor="#f2436f" Text="Hair Colour:" Grid.Row="1" Grid.Column="2" />
+                <Label TextColor="Black" Text="{Binding HairColour}" Grid.Row="1" Grid.Column="3" />
+
+                <Label TextColor="#f2436f" Text="Build:" Grid.Row="2" Grid.Column="0" />
+                <Label TextColor="Black" Text="{Binding Build}" Grid.Row="2" Grid.Column="1" />
+                <Label TextColor="#f2436f" Text="Marital Status:" Grid.Row="2" Grid.Column="2" />
+                <Label TextColor="Black" Text="{Binding MaritalStatus}" Grid.Row="2" Grid.Column="3" />
+
+                <Label TextColor="#f2436f" Text="Drinking:" Grid.Row="3" Grid.Column="0" />
+                <Label TextColor="Black" Text="{Binding Drinking}" Grid.Row="3" Grid.Column="1" />
+                <Label TextColor="#f2436f" Text="Smoking:" Grid.Row="3" Grid.Column="2" />
+                <Label TextColor="Black" Text="{Binding Smoking}" Grid.Row="3" Grid.Column="3" />
+
+                <Label TextColor="#f2436f" Text="Religion:" Grid.Row="4" Grid.Column="0" />
+                <Label TextColor="Black" Text="{Binding Religion}" Grid.Row="4" Grid.Column="1" />
+                <Label TextColor="#f2436f" Text="Location:" Grid.Row="4" Grid.Column="2" />
+                <Label TextColor="Black" Text="{Binding Location}" Grid.Row="4" Grid.Column="3" />
+
+                <Label TextColor="#f2436f" Text="Occupation:" Grid.Row="5" Grid.Column="0" />
+                <Label TextColor="Black" Text="{Binding Occupation}" Grid.Row="5" Grid.Column="1" />
+
+                <Label TextColor="#f2436f" Text="Interests:" Grid.Row="6" Grid.Column="0" />
+                <Label TextColor="Black" Text="{Binding Interests}" Grid.Row="6" Grid.Column="1"  Grid.ColumnSpan="3"/>
+        </Grid>
+            <Label TextColor="#f2436f" Text="Type of Relationship:" />
+            <Label TextColor="Black" Text="{Binding RelationshipType}" />
+            <Label TextColor="#f2436f" Text="Ideal Partner" />
+            <Label TextColor="Black" Text="{Binding IdealPartner}" />
+            <Label TextColor="#f2436f" Text="About Me:" />
+            <Label TextColor="Black" Text="{Binding About}" />
+    </StackLayout>
+    </ScrollView>
+</ContentPage>

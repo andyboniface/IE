@@ -2,11 +2,16 @@
 using IE.CommonSrc.Configuration;
 using Xamarin.Forms;
 
-[assembly: Dependency(typeof(ILogging))]
+[assembly: Dependency(typeof(IE.Droid.src.Configuration.Logger))]
 namespace IE.Droid.src.Configuration
 {
     public class Logger : ILogging
     {
+        public Logger() 
+        {
+            
+        }
+
         public void LogError(string msg)
         {
             Console.WriteLine("IE:Error: " + msg);

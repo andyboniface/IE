@@ -3,11 +3,12 @@
  <StackLayout BackgroundColor="White">
   <StackLayout BackgroundColor="#838383" Orientation="Horizontal" VerticalOptions="Start">
     <!-- top controls -->
-    <Image Source="icon.png" HeightRequest="40" Margin="5" x:Name="logo" />
-    <Image Source="Gear.png" HeightRequest="40" Margin="5" x:Name="settings" />
-    <Image Source="Favorite.png" HeightRequest="40" Margin="5" x:Name="favs" />
-    <Label TextColor="Lime" Text="Top!" VerticalOptions="Center" HorizontalOptions="Center" />
-  </StackLayout>
+    <Image Source="icon.png" HeightRequest="40" Margin="5" x:Name="LogoImage" />
+    <Image Source="Users.png" HeightRequest="40" Margin="5" x:Name="UsersImage" />
+    <Image Source="TrashFull.png" HeightRequest="40" Margin="5" x:Name="RejectedImage" />
+    <Image VerticalOptions="End" Source="Gear.png" HeightRequest="40" Margin="5" x:Name="SettingsImage" />
+
+        </StackLayout>
 
   <StackLayout VerticalOptions="CenterAndExpand">
     <!-- middle controls -->
