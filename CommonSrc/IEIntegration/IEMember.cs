@@ -27,7 +27,7 @@ namespace IE.CommonSrc.IEIntegration
 		public bool SentMyPhotoPassword { get; set; }   // Have we sent our photo password?
 		[JsonProperty("TelephoneNumber")]
 		public string TelephoneNumber { get; set; }     // Members telephone number
-		[JsonProperty("WhatsAppNumber")]
+		[JsonProperty("whatsAppNumber")]
 		public string WhatsAppNumber { get; set; }      // Members telephone number if using WhatsApp
 		[JsonProperty("kikAccountName")]
 		public string KIKAccountName { get; set; }      // Members KIK Account

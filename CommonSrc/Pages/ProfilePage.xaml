@@ -4,7 +4,64 @@
     <StackLayout BackgroundColor="White" VerticalOptions="Fill">
         <Image HeightRequest="200" WidthRequest="200" Source="{Binding ThumbnailUrl}" />
 
-        <Grid>
+        <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label VerticalOptions="Center" TextColor="#f2436f" Text="Password:" Grid.Row="0" Grid.Column="0" />
+                <Entry VerticalOptions="Center" x:Name="PhotoPasswordEntry" TextColor="Black" Text="{Binding PhotoPassword}" Grid.Row="0" Grid.Column="1" />
+                <Label VerticalOptions="Center" TextColor="#f2436f" Text="Sent Password:" Grid.Row="0" Grid.Column="2" />
+                <Switch VerticalOptions="Center" x:Name="SentPasswordEntry" IsToggled="{Binding SentMyPhotoPassword}" Grid.Row="0" Grid.Column="3" />
+        </Grid>
+
+        <Label BackgroundColor="Gray" HorizontalTextAlignment="Center" Margin="5" TextColor="#f2436f" Text="Contact Information:" />
+        <Grid Margin="5" RowSpacing="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label VerticalOptions="Center" TextColor="#f2436f" Text="Real Name:" Grid.Row="0" Grid.Column="0" />
+                <Entry HorizontalTextAlignment="End" VerticalOptions="Center" x:Name="RealNameEntry" TextColor="Black" Text="{Binding RealName}" Grid.Row="0" Grid.Column="1" />
+
+                <Label VerticalOptions="Center" TextColor="#f2436f" Text="Telephone:" Grid.Row="1" Grid.Column="0" />
+                <Entry HorizontalTextAlignment="End" VerticalOptions="Center" x:Name="TelephoneEntry" TextColor="Black" Text="{Binding TelephoneNumber}" Grid.Row="1" Grid.Column="1" />
+
+                <Label VerticalOptions="Center" TextColor="#f2436f" Text="WhatsApp:" Grid.Row="2" Grid.Column="0" />
+                <Entry HorizontalTextAlignment="End" VerticalOptions="Center" x:Name="WhatsAppEntry" TextColor="Black" Text="{Binding WhatsAppNumber}" Grid.Row="2" Grid.Column="1" />
+
+                <Label VerticalOptions="Center" TextColor="#f2436f" Text="KIK:" Grid.Row="3" Grid.Column="0" />
+                <Entry HorizontalTextAlignment="End" VerticalOptions="Center" x:Name="KikEntry" TextColor="Black" Text="{Binding kikAccountName}" Grid.Row="3" Grid.Column="1" />
+
+                <Label VerticalOptions="Center" TextColor="#f2436f" Text="Email:" Grid.Row="4" Grid.Column="0" />
+                <Entry HorizontalTextAlignment="End" VerticalOptions="Center" x:Name="EmailEntry" TextColor="Black" Text="{Binding EmailAddress}" Grid.Row="4" Grid.Column="1" />
+
+                <Label VerticalOptions="Center" TextColor="#f2436f" Text="Location:" Grid.Row="5" Grid.Column="0" />
+                <Entry HorizontalTextAlignment="End" VerticalOptions="Center" x:Name="LocationEntry" TextColor="Black" Text="{Binding Location}" Grid.Row="5" Grid.Column="1" />
+
+                <Label VerticalOptions="Center" TextColor="#f2436f" Text="Region:" Grid.Row="6" Grid.Column="0" />
+                <Entry HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="Black" Text="{Binding Region}" Grid.Row="6" Grid.Column="1" />
+
+                <Label VerticalOptions="Center" TextColor="#f2436f" Text="Rejected:" Grid.Row="7" Grid.Column="0" />
+                <Picker VerticalOptions="Center" TextColor="Black" SelectedItem="{Binding RejectReason}" Grid.Row="7" Grid.Column="1">
+                    <Picker.Items>
+                        <x:String>Not Rejected</x:String>
+                        <x:String>No Reply</x:String>
+                        <x:String>Said No</x:String>
+                        <x:String>Too Far Away</x:String>
+                    </Picker.Items>
+                </Picker>
+
+            </Grid>
+
+            <Label BackgroundColor="Gray" HorizontalTextAlignment="Center" Margin="5" TextColor="#f2436f" Text="Notes:" />
+        <Editor HeightRequest="200" MinimumHeightRequest="200" VerticalOptions="Center" TextColor="Black" Text="{Binding Notes}" />
+
+
+        <Label BackgroundColor="Gray" HorizontalTextAlignment="Center" Margin="5" TextColor="#f2436f" Text="Description:" />
+        <Grid Margin="5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -34,11 +91,9 @@
 
                 <Label TextColor="#f2436f" Text="Religion:" Grid.Row="4" Grid.Column="0" />
                 <Label TextColor="Black" Text="{Binding Religion}" Grid.Row="4" Grid.Column="1" />
-                <Label TextColor="#f2436f" Text="Location:" Grid.Row="4" Grid.Column="2" />
-                <Label TextColor="Black" Text="{Binding Location}" Grid.Row="4" Grid.Column="3" />
 
-                <Label TextColor="#f2436f" Text="Occupation:" Grid.Row="5" Grid.Column="0" />
-                <Label TextColor="Black" Text="{Binding Occupation}" Grid.Row="5" Grid.Column="1" />
+                <Label VerticalOptions="Center" TextColor="#f2436f" Text="Occupation:" Grid.Row="5" Grid.Column="0" />
+                <Entry HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="Black" Text="{Binding Occupation}" Grid.Row="5" Grid.Column="1" />
 
                 <Label TextColor="#f2436f" Text="Interests:" Grid.Row="6" Grid.Column="0" />
                 <Label TextColor="Black" Text="{Binding Interests}" Grid.Row="6" Grid.Column="1"  Grid.ColumnSpan="3"/>

@@ -18,8 +18,12 @@ namespace IE.CommonSrc.Pages
 
             Items = ds.RejectedItems;
 			this.Title = "Rejected Members (" + Items.Count() + ")";
-			Items.CollectionChanged += (sender, e) => {
-				this.Title = "Rejected Members (" + Items.Count() + ")";
+			Items.CollectionChanged += (sender, e) =>
+			{
+				Device.BeginInvokeOnMainThread(() =>
+				{
+					this.Title = "Rejected Members (" + Items.Count() + ")";
+				});
 			};
 			BindingContext = this;
 		}

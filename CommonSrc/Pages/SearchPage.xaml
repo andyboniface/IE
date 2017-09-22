@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns:ms="clr-namespace:IE.CommonSrc.Controls" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="IE.CommonSrc.Pages.ActiveMembersListPage">
+<ContentPage xmlns:ms="clr-namespace:IE.CommonSrc.Controls" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="IE.CommonSrc.Pages.SearchPage">
     <StackLayout BackgroundColor="White" VerticalOptions="Fill">
-  <StackLayout BackgroundColor="#838383" Orientation="Horizontal" VerticalOptions="Start">
+  <StackLayout BackgroundColor="White" Orientation="Horizontal" VerticalOptions="Start">
     <!-- top controls -->
-    <Image Source="icon.png" HeightRequest="40" Margin="5" x:Name="LogoImage" />
-    <Image Source="Users.png" HeightRequest="40" Margin="5" x:Name="UsersImage" />
-    <Image Source="TrashFull.png" HeightRequest="40" Margin="5" x:Name="RejectedImage" />
-    <Image Source="Search.png" HeightRequest="40" Margin="5" x:Name="SearchImage" />
-    <Image VerticalOptions="End" Source="Gear.png" HeightRequest="40" Margin="5" x:Name="SettingsImage" />
-
+    <Entry VerticalOptions="Fill" HorizontalOptions="FillAndExpand" PlaceholderColor="Silver" x:Name="SearchUsername" TextColor="Black" Placeholder="Search for Username" />
+    <Button Text="Search" TextColor="Black" x:Name="SearchButton" />  
         </StackLayout>
+    <StackLayout BackgroundColor="White" VerticalOptions="Fill">
         <ListView x:Name="MemberListView" ItemSelected="OnSelected" RowHeight="150" ItemsSource="{Binding Items}" Grid.Row="2" Grid.ColumnSpan="3">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                                  <ViewCell.ContextActions>
-            <MenuItem Clicked="OnReject" CommandParameter="{Binding .}"
-               Text="Reject" IsDestructive="True" />
+            <MenuItem Clicked="OnAccept" CommandParameter="{Binding .}"
+               Text="Accept" />
          </ViewCell.ContextActions>
 
                         <StackLayout BackgroundColor="#eee" Orientation="Vertical">
@@ -36,4 +33,5 @@
             </ListView.ItemTemplate>
         </ListView>
     </StackLayout>
+        </StackLayout>
 </ContentPage>

@@ -18,8 +18,9 @@ namespace IE.CommonSrc.IEIntegration
         private const string LOGIN_URL = "https://www.illicitencounters.com/auth/login/finalUrl";
         private const string LOGOUT_URL = "https://www.illicitencounters.com/auth/logout";
         private const string ONLINE_URL_START = "https://www.illicitencounters.com/search/results/mode/online/gender/";
-        private const string SEARCH_URL = "https://www.illicitencounters.com/search/results/page/";
+        private const string MATCHFINDER_URL = "https://www.illicitencounters.com/search/results/page/";
         private const string PROFILE_URL = "https://www.illicitencounters.com/member/profile/show/";
+        private const string NAMESEARCH_URL = "https://www.illicitencounters.com/search/results/page/";
 
         public IESession(ILogging logger)
         {
@@ -186,7 +187,58 @@ namespace IE.CommonSrc.IEIntegration
             return false;
         }
 
-        public async Task<List<IEProfile>> Search(bool female, int minAge, int maxAge, string counties, int maxProfiles = 50)
+		public async Task<List<IEProfile>> SearchByName(bool female, string username, int maxProfiles = 50)
+		{
+			List<IEProfile> resultList = new List<IEProfile>();
+
+			List<KeyValuePair<string, string>> rawContent = new List<KeyValuePair<string, string>>
+			{
+                new KeyValuePair<string, string>("UserName", username),
+ 				new KeyValuePair<string, string>("search_submit", "1")
+			};
+			var content = new FormUrlEncodedContent(rawContent);
+
+			int currentPage = 1;
+			do
+			{
+				var reply = await _httpClient.PostAsync(NAMESEARCH_URL + currentPage, content).ConfigureAwait(false);
+				if (reply.StatusCode == HttpStatusCode.OK)
+				{
+					var replyPage = await reply.Content.ReadAsStringAsync();
+
+					HtmlDocument htmlDoc = new HtmlDocument();
+					htmlDoc.LoadHtml(replyPage);
+
+                    try
+                    {
+                        ParseResults(htmlDoc, resultList, female, maxProfiles);
+                    } catch( Exception e ) {
+                        _logger.LogError("SearchByName: Failed to parse results correctly" + e.Message);
+                        _logger.LogError(e.StackTrace);
+                    }
+					var nextPage = htmlDoc.DocumentNode.Descendants("a").Where(x => x.Attributes.Contains("title") && x.Attributes["title"].Value == "next");
+					if ((nextPage == null) || (nextPage.Any() == false))
+					{
+						maxProfiles = -1;                       // Force an end as we can't find next button...
+					}
+					else
+					{
+						// We have found the next button....incremenet our page
+						currentPage++;
+					}
+				}
+				else
+				{
+					_logger.LogError("Unexpected status code during search returned " + reply.StatusCode);
+					maxProfiles = -1;
+				}
+			} while (resultList.Count() < maxProfiles);
+
+			return resultList;
+		}
+
+
+		public async Task<List<IEProfile>> MatchFinder(bool female, int minAge, int maxAge, string counties, int maxProfiles = 50)
         {
             List<IEProfile> resultList = new List<IEProfile>();
 
@@ -212,7 +264,7 @@ namespace IE.CommonSrc.IEIntegration
             int currentPage = 1;
             do
             {
-                var reply = await _httpClient.PostAsync(SEARCH_URL + currentPage, content).ConfigureAwait(false);
+                var reply = await _httpClient.PostAsync(MATCHFINDER_URL + currentPage, content).ConfigureAwait(false);
                 if (reply.StatusCode == HttpStatusCode.OK)
                 {
                     var replyPage = await reply.Content.ReadAsStringAsync();
@@ -221,7 +273,7 @@ namespace IE.CommonSrc.IEIntegration
                     htmlDoc.LoadHtml(replyPage);
 
 
-                    ParseResults(htmlDoc, resultList);
+                    ParseResults(htmlDoc, resultList, female, maxProfiles);
 
                     var nextPage = htmlDoc.DocumentNode.Descendants("a").Where(x => x.Attributes.Contains("title") && x.Attributes["title"].Value == "next");
                     if ((nextPage == null) || (nextPage.Any() == false))
@@ -271,7 +323,7 @@ namespace IE.CommonSrc.IEIntegration
                     htmlDoc.LoadHtml(replyPage);
 
 
-                    ParseResults(htmlDoc, resultList);
+                    ParseResults(htmlDoc, resultList, female, maxProfiles);
 
                     //_logger.LogInfo("replyPage=" + replyPage);
 
@@ -306,7 +358,7 @@ namespace IE.CommonSrc.IEIntegration
             return resultList;
         }
 
-        private void ParseResults(HtmlDocument htmlDoc, List<IEProfile> resultList)
+        private void ParseResults(HtmlDocument htmlDoc, List<IEProfile> resultList, bool searchForFemale, int maxProfiles)
         {
             var container = htmlDoc.DocumentNode.Descendants("div").Where(x => x.Attributes.Contains("class") && x.Attributes["class"].Value == "result-item");
             if (container != null && container.Any())
@@ -315,81 +367,109 @@ namespace IE.CommonSrc.IEIntegration
                 {
                     string profileName = null;
                     string profileUrl = null;
-                    string partialSummary = null;
-                    string imageUrl = null;
+                    string partialSummary = "";
+                    string imageUrl = "https://www.illicitencounters.com/img/avatars/female_Avatar3.jpg";
                     string location = null;
                     string age = null;
 
-                    var nameSpan = item.Descendants("span").Where(x => x.Attributes.Contains("class") && (x.Attributes["class"].Value == "linkbox" || x.Attributes["class"].Value == "linkboxvisited"));
-                    if (nameSpan != null)
-                    {
-                        profileName = nameSpan.Select(x => x.Descendants("a")).FirstOrDefault().FirstOrDefault().InnerText;
-                        profileName = profileName.Trim();
-                        profileUrl = nameSpan.Select(x => x.Descendants("a")).FirstOrDefault().FirstOrDefault().Attributes["href"].Value;
+                    bool isFemale = true;
 
-                        _logger.LogInfo("Name = '" + profileName + "'");
-                        //_logger.LogInfo("URL = '" + profileUrl + "'");
+                    var maleImage = item.Descendants("img").Where( x => x.Attributes.Contains("src" ) && ( x.Attributes["src"].Value == "/img/ie_lexus/1.gif"));
+                    if ((maleImage != null) && (maleImage.Any()))
+                    {
+                        isFemale = false;
                     }
-                    var text = item.Descendants("p").Where(x => x.Attributes.Contains("class") && x.Attributes["class"].Value == "partial-text");
-                    partialSummary = text.FirstOrDefault().InnerHtml.Trim();
-                    //_logger.LogInfo("Text=" + partialSummary);
 
-                    var imageA = item.Descendants("a").Where(x => x.Attributes.Contains("class") && x.Attributes["class"].Value == "highslide");
-                    if (imageA != null)
+                    if (isFemale == searchForFemale)
                     {
-                        var imageB = imageA.Select(x => x.Descendants("img"));//.FirstOrDefault().FirstOrDefault().Attributes["src"];
-                        if (imageB != null)
+                        var nameSpan = item.Descendants("span").Where(x => x.Attributes.Contains("class") && (x.Attributes["class"].Value == "linkbox" || x.Attributes["class"].Value == "linkboxvisited"));
+                        if (nameSpan != null)
                         {
-                            var imageC = imageB.FirstOrDefault();
-                            if (imageC != null)
+                            profileName = nameSpan.Select(x => x.Descendants("a")).FirstOrDefault().FirstOrDefault().InnerText;
+                            if (profileName != null)
                             {
-                                var imageD = imageC.FirstOrDefault();
-                                if (imageD != null)
+                                profileName = profileName.Trim();
+                                profileUrl = nameSpan.Select(x => x.Descendants("a")).FirstOrDefault().FirstOrDefault().Attributes["href"].Value;
+
+                                _logger.LogInfo("Name = '" + profileName + "'");
+                            }
+                            else
+                            {
+                                _logger.LogError("Failed to locate profile name");
+                            }
+                            //_logger.LogInfo("URL = '" + profileUrl + "'");
+                        }
+                        var text = item.Descendants("p").Where(x => x.Attributes.Contains("class") && x.Attributes["class"].Value == "partial-text");
+                        if ((text != null) && ( text.Any()))
+                        {
+                            partialSummary = text.FirstOrDefault().InnerHtml.Trim();
+							//_logger.LogInfo("Text=" + partialSummary);
+
+							_logger.LogInfo("partialSummary = '" + partialSummary + "'");
+							var imageA = item.Descendants("a").Where(x => x.Attributes.Contains("class") && x.Attributes["class"].Value == "highslide");
+                            if (imageA != null)
+                            {
+                                var imageB = imageA.Select(x => x.Descendants("img"));//.FirstOrDefault().FirstOrDefault().Attributes["src"];
+                                if (imageB != null)
                                 {
-                                    imageUrl = imageD.Attributes["src"].Value;
+                                    var imageC = imageB.FirstOrDefault();
+                                    if (imageC != null)
+                                    {
+                                        var imageD = imageC.FirstOrDefault();
+                                        if (imageD != null)
+                                        {
+                                            imageUrl = imageD.Attributes["src"].Value;
+                                        }
+                                    }
                                 }
                             }
                         }
-                    }
-                    if (imageUrl == null)
-                    {
-                        // No profile picture - but we can find the image they selected instead...
-                        var imageE = item.Descendants("img").Where(x => x.Attributes.Contains("title") && x.Attributes["title"].Value == "No profile picture");
-                        if (imageE != null)
+                        if (imageUrl == null)
                         {
-                            imageUrl = "https://www.illicitencounters.com" + imageE.FirstOrDefault().Attributes["src"].Value;
+                            // No profile picture - but we can find the image they selected instead...
+                            var imageE = item.Descendants("img").Where(x => x.Attributes.Contains("title") && x.Attributes["title"].Value == "No profile picture");
+                            if ((imageE != null) && (imageE.Any()))
+                            {
+                                imageUrl = "https://www.illicitencounters.com" + imageE.FirstOrDefault().Attributes["src"].Value;
+							}
+							_logger.LogInfo("imageUrl = '" + imageUrl + "'");
+						}
+
+                        var divs = item.Descendants("div").Where(x => x.Attributes.Contains("style") && x.Attributes["style"].Value.Contains("margin-left") && x.Attributes["style"].Value.Contains("margin-bottom"));
+                        if (divs != null)
+                        {
+
+                            char[] delimiterChars = { '&', ';' };
+                            string[] parts = divs.FirstOrDefault().InnerText.Split(delimiterChars);
+                            if (( parts != null ) && (parts.Count() > 6))
+                            {
+                                age = parts[2];
+                                location = parts[6];
+								_logger.LogInfo("location = '" + location + "'");
+							}
                         }
-                    }
 
-                    var divs = item.Descendants("div").Where(x => x.Attributes.Contains("style") && x.Attributes["style"].Value.Contains("margin-left") && x.Attributes["style"].Value.Contains("margin-bottom"));
-                    if (divs != null)
-                    {
+                        if ((profileName != null) && (profileUrl != null) && ( age != null) && (location != null) && ( imageUrl != null))
+                        {
+                            IEProfile profile = new IEProfile()
+                            {
+                                Name = profileName.Trim(),
+                                PartialSummary = StripHtml(partialSummary.Trim()),
+                                ThumbnailUrl = imageUrl.Trim(),
+                                Location = location.Trim(),
+                                Age = age.Trim()
+                            };
+                            char[] delimiterChars = { '/' };
+                            string[] parts = profileUrl.Split(delimiterChars);
+                            if ((parts != null) && (parts.Count() > 5))
+                            {
+                                profile.ProfileId = parts[4];
+                                resultList.Add(profile);
 
-                        char[] delimiterChars = { '&', ';' };
-                        string[] parts = divs.FirstOrDefault().InnerText.Split(delimiterChars);
-                        if (parts.Count() > 6)
-                        {
-                            age = parts[2];
-                            location = parts[6];
-                        }
-                    }
-
-                    if ((profileName != null) && (profileUrl != null))
-                    {
-                        IEProfile profile = new IEProfile()
-                        {
-                            Name = profileName.Trim(),
-                            PartialSummary = StripHtml( partialSummary.Trim() ),
-                            ThumbnailUrl = imageUrl.Trim(),
-                            Location = location.Trim(),
-                            Age = age.Trim()
-                        };
-                        char[] delimiterChars = { '/' };
-                        string[] parts = profileUrl.Split(delimiterChars);
-                        if ((parts != null) && (parts.Count() > 5))
-                        {
-                            profile.ProfileId = parts[4];
-                            resultList.Add(profile);
+                                if ( resultList.Count() >= maxProfiles ) {
+                                    break;
+                                }
+                            }
                         }
                     }
                 }

@@ -21,9 +21,13 @@ namespace IE.CommonSrc.Pages
 
             Items = ds.NewItems;
 			this.Title = "New Members (" + Items.Count() + ")";
-            Items.CollectionChanged += (sender, e) => {
-                this.Title = "New Members (" + Items.Count() + ")";
-            };
+			Items.CollectionChanged += (sender, e) =>
+			{
+				Device.BeginInvokeOnMainThread(() =>
+				{
+					this.Title = "New Members (" + Items.Count() + ")";
+				});
+			};
 			BindingContext = this;
 		}
 

@@ -52,6 +52,7 @@ namespace IE.CommonSrc.IEIntegration
 			RejectedItems = new ObservableCollection<IEMember>();
 			ActiveItems = new ObservableCollection<IEMember>();
 			NewItems = new ObservableCollection<IEMember>();
+            SearchResults = new ObservableCollection<IEMember>();
 
 			Members = new Dictionary<string, IEMember>();
             //string dbPath = DependencyService.Get<IFileHelper>().GetLocalFilePath("iedb.db3");
@@ -134,6 +135,7 @@ namespace IE.CommonSrc.IEIntegration
 		public ObservableCollection<IEMember> RejectedItems { get; private set; }
 		public ObservableCollection<IEMember> ActiveItems { get; private set; }
 		public ObservableCollection<IEMember> NewItems { get; private set; }
+		public ObservableCollection<IEMember> SearchResults { get; private set; }
 
 		public void StartDataSource() 
         {
@@ -186,7 +188,7 @@ namespace IE.CommonSrc.IEIntegration
             SaveMember(member);
         }
 
-        private async void SaveMember(IEMember member) {
+        public async void SaveMember(IEMember member) {
 
             _logger.LogInfo("Saving member " + member.Id + " profile=" + member.Username + " Status=" + member.Status);
 
@@ -225,14 +227,60 @@ namespace IE.CommonSrc.IEIntegration
             */
         }
 
-        public void GetMemberProfile(IEMember member) {
+		public void DoNameSearch(string username)
+		{
+			TimeScheduler.GetTimeScheduler().AddTask(DS_TASK_NAME + username, TimeSpan.FromSeconds(0), () => InternalDoNameSearch(username));
+		}
+		
+        private async Task<TimeSpan> InternalDoNameSearch(string username)
+		{
+
+            if (Settings.LoginDetailsSupplied())
+            {
+                // Not logged in currently - we should try to login now....
+                bool state = await _session.Login(Settings.UserName, Settings.Password);
+                if (state)
+                {
+                    SearchResults.Clear();
+                    List<IEProfile> profiles = await _session.SearchByName(Settings.SearchForFemales, username, Settings.FetchCount);
+
+                    _logger.LogInfo("Found " + profiles.Count() + " results for search of " + username);
+					foreach (var profile in profiles)
+					{
+						// Do we know this profile already?
+						IEMember member = GetMember(profile.ProfileId);
+						if (member == null)
+						{
+							// We should add them....
+							member = new IEMember()
+							{
+								ProfileId = profile.ProfileId,
+								Region = profile.Location,
+								Status = IEMember.MEMBER_NEW
+							};
+						}
+						member.Username = profile.Name;
+						member.Age = profile.Age;
+						member.ThumbnailUrl = profile.ThumbnailUrl;
+						member.PartialSummary = profile.PartialSummary;
+                        SearchResults.Add(member);
+                    }
+					await _session.Logout();
+                    SearchResults.Sort();
+				}
+            }
+			return TimeScheduler.STOP_TIMER;                // This stops us being re-scheduled
+		}
+
+		public void GetMemberProfile(IEMember member) {
             TimeScheduler.GetTimeScheduler().AddTask(DS_TASK_NAME + member.ProfileId, TimeSpan.FromSeconds(0), () => InternalGetMemberProfile(member));
 		}
 
         private async Task<TimeSpan> InternalGetMemberProfile(IEMember member) {
 
-            if ((member.FetchedExtraData == null) || ((DateTime.Now - member.FetchedExtraData).TotalDays > 10))
-            {
+			if ((member.FetchedExtraData == null) || ((DateTime.Now - member.FetchedExtraData).TotalDays > 500))
+		    //if (member.FetchedExtraData == null)
+			{
                 // Never got extra profile data - need to fetch it...or it was over 10 days ago...
                 if (Settings.LoginDetailsSupplied())
                 {
@@ -266,7 +314,7 @@ namespace IE.CommonSrc.IEIntegration
             {
                 // We are currently logged in - therefore we should try to pull in some useful data - looking for new people
                 //
-                await DoSearch(false);
+                await DoMatchFinder(false);
 
                 // Now we have everything we need - we should logoff.
                 //
@@ -298,7 +346,7 @@ namespace IE.CommonSrc.IEIntegration
         /*
          * This method is used to search for users who are currently logged in
          */
-        private async Task<bool> DoSearch( bool byLogin) 
+        private async Task<bool> DoMatchFinder( bool byLogin) 
         {
             List<IEProfile> profiles;
 			bool newMemberFound = false;
@@ -309,7 +357,7 @@ namespace IE.CommonSrc.IEIntegration
             }
             else
             {
-                profiles = await _session.Search(Settings.SearchForFemales, Settings.MinAge, Settings.MaxAge, Settings.Regions, Settings.FetchCount);
+                profiles = await _session.MatchFinder(Settings.SearchForFemales, Settings.MinAge, Settings.MaxAge, Settings.Regions, Settings.FetchCount);
             }
             if (profiles != null)
             {

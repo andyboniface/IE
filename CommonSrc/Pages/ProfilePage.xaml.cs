@@ -52,6 +52,7 @@ namespace IE.CommonSrc.Pages
                     Region = "Kent",
                     RelationshipType = "FWB",
                     Religion = "None",
+                    RejectReason = "Not Rejected",
                     Smoking = "Non-Smoker",
                     TelephoneNumber = "01234 5678901",
                     WhatsAppNumber = "01234 5677890",
@@ -63,13 +64,39 @@ namespace IE.CommonSrc.Pages
 
         protected void Initialise(IEMember member) 
         {
-            this.Title = "Profile for " + member.Username + " (" + member.Age + ")";
+            this.Title = member.Username + " (" + member.Age + ")";
 			
             IEDataSource ds = IEDataSource.GetInstance();
 
             ds.GetMemberProfile(member);
 
+            if ( member.Status != IEMember.MEMBER_REJECTED ) {
+                member.RejectReason = "Not Rejected";
+            }
 			BindingContext = member;
         }
-    }
+
+		protected override void OnDisappearing()
+        {
+			IEDataSource ds = IEDataSource.GetInstance();
+
+            IEMember member = BindingContext as IEMember;
+            if ( member != null ) 
+            {
+                if (( String.IsNullOrEmpty(member.RejectReason)) || ( member.RejectReason.Equals("Not Rejected")))
+                {
+                    if (member.Status == IEMember.MEMBER_REJECTED)
+                    {
+                        member.Status = IEMember.MEMBER_KNOWN;
+                    }
+                }
+                else 
+                {
+                    member.Status = IEMember.MEMBER_REJECTED;
+                }
+                ds.SaveMember(member);    
+            }
+		}
+
+	}
 }

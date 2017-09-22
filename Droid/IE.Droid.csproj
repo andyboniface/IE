@@ -170,6 +170,7 @@
     <AndroidResource Include="Resources\drawable\pinkticksmall.png" />
     <AndroidResource Include="Resources\drawable\Users.png" />
     <AndroidResource Include="Resources\drawable\TrashFull.png" />
+    <AndroidResource Include="Resources\drawable\Search.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />

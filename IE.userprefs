@@ -1,18 +1,14 @@
 ﻿<Properties StartupConfiguration="{12FAF289-7D27-4AC8-99E2-75261E4AAA1C}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="CommonSrc/IEIntegration/IEDataSource.cs">
     <Files>
-      <File FileName="CommonSrc/IEIntegration/IEDataSource.cs" Line="51" Column="1" />
-      <File FileName="CommonSrc/ExternalDB/ExternalDBService.cs" Line="81" Column="62" />
-      <File FileName="CommonSrc/Pages/NewMemberListPage.xaml.cs" Line="27" Column="1" />
-      <File FileName="CommonSrc/Pages/RejectedMembersListPage.xaml.cs" Line="16" Column="1" />
-      <File FileName="CommonSrc/Pages/ProfilePage.xaml.cs" Line="54" Column="39" />
-      <File FileName="App.xaml.cs" Line="30" Column="5" />
-      <File FileName="Helpers/DesignTimeHelper.cs" Line="17" Column="1" />
-      <File FileName="CommonSrc/Pages/ProfilePage.xaml" Line="55" Column="1" />
-      <File FileName="CommonSrc/Pages/NewMemberListPage.xaml" Line="32" Column="15" />
-      <File FileName="CommonSrc/Pages/HomePage.xaml" Line="33" Column="1" />
-      <File FileName="CommonSrc/IEIntegration/IEProfile.cs" Line="1" Column="1" />
-      <File FileName="CommonSrc/IEIntegration/IESession.cs" Line="167" Column="15" />
+      <File FileName="CommonSrc/IEIntegration/IEMember.cs" Line="43" Column="33" />
+      <File FileName="CommonSrc/Pages/ProfilePage.xaml" Line="96" Column="172" />
+      <File FileName="CommonSrc/Pages/ProfilePage.xaml.cs" Line="75" Column="14" />
+      <File FileName="CommonSrc/Pages/SearchPage.xaml" Line="38" Column="1" />
+      <File FileName="CommonSrc/Pages/SettingsPage.xaml" Line="46" Column="15" />
+      <File FileName="CommonSrc/Pages/SettingsPage.xaml.cs" Line="71" Column="1" />
+      <File FileName="CommonSrc/IEIntegration/IEDataSource.cs" Line="190" Column="9" />
+      <File FileName="CommonSrc/IEIntegration/IESession.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

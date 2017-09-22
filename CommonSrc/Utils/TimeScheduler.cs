@@ -89,6 +89,9 @@ namespace IE.CommonSrc.Utils
 				{
 					LogMessage("Runner has errored - " + e.Message);
                     LogMessage("Stack=" + e.StackTrace);
+                    if ( e.InnerException != null ) {
+                        LogMessage("InnerException=" + e.InnerException.StackTrace);
+                    }
 				}
 			}
 		}

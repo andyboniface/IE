@@ -41,6 +41,11 @@ namespace IE.CommonSrc.Pages
 				Command = new Command(GotoRejctedMembersPage),
 				NumberOfTapsRequired = 1
 			});
+            this.SearchImage.GestureRecognizers.Add(new TapGestureRecognizer
+			{
+				Command = new Command(GotoSearchPage),
+				NumberOfTapsRequired = 1
+			});
 
 		}
 
@@ -62,6 +67,11 @@ namespace IE.CommonSrc.Pages
 		async void GotoRejctedMembersPage()
 		{
 			await Navigation.PushAsync(new RejectedMembersListPage());
+		}
+
+		async void GotoSearchPage()
+		{
+			await Navigation.PushAsync(new SearchPage());
 		}
 
 		async void GotoSettingsPage()
