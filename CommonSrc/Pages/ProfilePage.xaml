@@ -93,7 +93,7 @@
                 <Label TextColor="Black" Text="{Binding Religion}" Grid.Row="4" Grid.Column="1" />
 
                 <Label VerticalOptions="Center" TextColor="#f2436f" Text="Occupation:" Grid.Row="5" Grid.Column="0" />
-                <Entry HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="Black" Text="{Binding Occupation}" Grid.Row="5" Grid.Column="1" />
+                <Entry HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="Black" Text="{Binding Occupation}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" />
 
                 <Label TextColor="#f2436f" Text="Interests:" Grid.Row="6" Grid.Column="0" />
                 <Label TextColor="Black" Text="{Binding Interests}" Grid.Row="6" Grid.Column="1"  Grid.ColumnSpan="3"/>

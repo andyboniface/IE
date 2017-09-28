@@ -62,6 +62,20 @@ namespace IE.CommonSrc.Pages
 					GotoSettingsPage();
 				}
 			}
+            if (Settings.SearchForFemales )
+            {
+                this.SettingsImage.Source = "EditMaleProfile";
+                this.RejectedImage.Source = "Dislike";
+                this.SearchImage.Source = "FindFemales";
+                this.UsersImage.Source = "MatchingFemales";
+            }
+            else
+            {
+				this.SettingsImage.Source = "EditFemaleProfile";
+				this.RejectedImage.Source = "Dislike";
+				this.SearchImage.Source = "FindMales";
+				this.UsersImage.Source = "MatchingMales";
+			}
 		}
 
 		async void GotoRejctedMembersPage()

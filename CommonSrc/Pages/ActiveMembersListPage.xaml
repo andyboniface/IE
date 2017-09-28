@@ -3,11 +3,11 @@
     <StackLayout BackgroundColor="White" VerticalOptions="Fill">
   <StackLayout BackgroundColor="#838383" Orientation="Horizontal" VerticalOptions="Start">
     <!-- top controls -->
-    <Image Source="icon.png" HeightRequest="40" Margin="5" x:Name="LogoImage" />
-    <Image Source="Users.png" HeightRequest="40" Margin="5" x:Name="UsersImage" />
-    <Image Source="TrashFull.png" HeightRequest="40" Margin="5" x:Name="RejectedImage" />
-    <Image Source="Search.png" HeightRequest="40" Margin="5" x:Name="SearchImage" />
-    <Image VerticalOptions="End" Source="Gear.png" HeightRequest="40" Margin="5" x:Name="SettingsImage" />
+    <Image Source="icon.png" HeightRequest="30" Margin="10,0,0,0" x:Name="LogoImage" />
+    <Image Source="MatchingFemales.png" HeightRequest="50" Margin="10,0,0,0" x:Name="UsersImage" />
+    <Image Source="Dislike.png" HeightRequest="50" Margin="10,0,0,0" x:Name="RejectedImage" />
+    <Image Aspect="AspectFit" Source="FindFemales.png" HeightRequest="50" Margin="10,0,0,0" x:Name="SearchImage" />
+    <Image HorizontalOptions="EndAndExpand" Source="EditMaleProfile.png" HeightRequest="50" Margin="10,0,10,0" x:Name="SettingsImage" />
 
         </StackLayout>
         <ListView x:Name="MemberListView" ItemSelected="OnSelected" RowHeight="150" ItemsSource="{Binding Items}" Grid.Row="2" Grid.ColumnSpan="3">
