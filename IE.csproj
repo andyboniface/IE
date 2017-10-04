@@ -33,9 +33,6 @@
     <EmbeddedResource Include="CommonSrc\Pages\SettingsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="CommonSrc\Pages\HomePage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Include="CommonSrc\Pages\RegionSelectionPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -80,9 +77,6 @@
     <Compile Include="CommonSrc\IEIntegration\IEDataSource.cs" />
     <Compile Include="CommonSrc\IEIntegration\IEMember.cs" />
     <Compile Include="CommonSrc\Utils\TimeScheduler.cs" />
-    <Compile Include="CommonSrc\Pages\HomePage.xaml.cs">
-      <DependentUpon>HomePage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="CommonSrc\Pages\RegionSelectionPage.xaml.cs">
       <DependentUpon>RegionSelectionPage.xaml</DependentUpon>
     </Compile>

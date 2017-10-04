@@ -33,7 +33,7 @@
                 <Entry HorizontalTextAlignment="End" VerticalOptions="Center" x:Name="WhatsAppEntry" TextColor="Black" Text="{Binding WhatsAppNumber}" Grid.Row="2" Grid.Column="1" />
 
                 <Label VerticalOptions="Center" TextColor="#f2436f" Text="KIK:" Grid.Row="3" Grid.Column="0" />
-                <Entry HorizontalTextAlignment="End" VerticalOptions="Center" x:Name="KikEntry" TextColor="Black" Text="{Binding kikAccountName}" Grid.Row="3" Grid.Column="1" />
+                <Entry HorizontalTextAlignment="End" VerticalOptions="Center" x:Name="KikEntry" TextColor="Black" Text="{Binding KIKAccountName}" Grid.Row="3" Grid.Column="1" />
 
                 <Label VerticalOptions="Center" TextColor="#f2436f" Text="Email:" Grid.Row="4" Grid.Column="0" />
                 <Entry HorizontalTextAlignment="End" VerticalOptions="Center" x:Name="EmailEntry" TextColor="Black" Text="{Binding EmailAddress}" Grid.Row="4" Grid.Column="1" />

@@ -1,5 +1,5 @@
 ﻿<Properties StartupConfiguration="{12FAF289-7D27-4AC8-99E2-75261E4AAA1C}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="CommonSrc/Pages/ActiveMembersListPage.xaml.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="CommonSrc/ExternalDB/ExternalDBService.cs">
     <Files>
       <File FileName="CommonSrc/IEIntegration/IEMember.cs" Line="43" Column="33" />
       <File FileName="CommonSrc/Pages/ProfilePage.xaml" Line="110" Column="1" />
@@ -8,9 +8,10 @@
       <File FileName="CommonSrc/Pages/SettingsPage.xaml" Line="46" Column="15" />
       <File FileName="CommonSrc/Pages/SettingsPage.xaml.cs" Line="71" Column="1" />
       <File FileName="CommonSrc/IEIntegration/IEDataSource.cs" Line="260" Column="10" />
-      <File FileName="CommonSrc/IEIntegration/IESession.cs" Line="1" Column="1" />
+      <File FileName="CommonSrc/IEIntegration/IESession.cs" Line="68" Column="56" />
       <File FileName="CommonSrc/Pages/ActiveMembersListPage.xaml.cs" Line="77" Column="44" />
-      <File FileName="CommonSrc/Pages/ActiveMembersListPage.xaml" Line="17" Column="52" />
+      <File FileName="CommonSrc/Pages/ActiveMembersListPage.xaml" Line="40" Column="1" />
+      <File FileName="CommonSrc/ExternalDB/ExternalDBService.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
@@ -22,5 +23,5 @@
     <MonoDevelop.MacDev.AppleDevelopmentTeam />
   </MonoDevelop.Ide.ItemProperties.IE.iOS>
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.IE.Droid PreferredExecutionTarget="Android.03157df3b5a37e27" />
+  <MonoDevelop.Ide.ItemProperties.IE.Droid PreferredExecutionTarget="Android.Android_Accelerated_x86" />
 </Properties>

@@ -57,9 +57,15 @@ namespace IE.CommonSrc.IEIntegration
                     var tds = tables[1].Descendants("td").ToList();
                     if ((tds != null) && (tds.Count() > 16))
                     {
-                        var race = tds[14].InnerText.Split(':')[1].Trim();        // 
-                        var loc = tds[15].InnerText.Split(':')[1].Trim(); ;         // Location (often includes town)
-                        var mStatus = tds[16].InnerText.Split(':')[1].Trim(); ;     // Marital Status
+                        int fieldOffset = 14;
+                        if ( tds.Count() > 19 ) {
+                            // This means we have a 'Message History' shown as well...we need to step over it...
+                            fieldOffset += 2;               // Message History adds 2 new fields before the ones we want.
+                        }
+                        _logger.LogInfo("Found " + tds.Count() + " tds" );
+                        var race = tds[fieldOffset++].InnerText.Split(':')[1].Trim();        // 
+                        var loc = tds[fieldOffset++].InnerText.Split(':')[1].Trim(); ;         // Location (often includes town)
+                        var mStatus = tds[fieldOffset++].InnerText.Split(':')[1].Trim(); ;     // Marital Status
 
                         _logger.LogInfo("Race = " + race);
                         _logger.LogInfo("Location = " + loc);
