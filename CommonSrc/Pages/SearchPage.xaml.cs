@@ -13,13 +13,11 @@ namespace IE.CommonSrc.Pages
     {
         public SearchPage()
         {
+			IEDataSource ds = IEDataSource.GetInstance();
+			Items = ds.SearchResults;
+			
             InitializeComponent();
 
-			IEDataSource ds = IEDataSource.GetInstance();
-
-			//List<IEMember> members = ds.Members.Select(member => member.Value).Where(member => member.Status == IEMember.MEMBER_NEW).ToList();
-
-            Items = ds.SearchResults;
 			this.Title = "Found (" + Items.Count() + ")";
 			Items.CollectionChanged += (sender, e) => 
             {
@@ -27,7 +25,8 @@ namespace IE.CommonSrc.Pages
                 {
                     this.Title = "Found (" + Items.Count() + ")";
                     Items = ds.SearchResults;
-                    this.OnPropertyChanging();
+					BindingContext = this;
+					this.OnPropertyChanging();
 				});
 			};
 			BindingContext = this;

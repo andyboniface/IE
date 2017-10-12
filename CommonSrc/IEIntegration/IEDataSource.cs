@@ -267,6 +267,7 @@ namespace IE.CommonSrc.IEIntegration
                     }
 					await _session.Logout();
                     SearchResults.Sort();
+
 				}
             }
 			return TimeScheduler.STOP_TIMER;                // This stops us being re-scheduled

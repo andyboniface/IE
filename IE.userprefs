@@ -1,17 +1,10 @@
 ﻿<Properties StartupConfiguration="{12FAF289-7D27-4AC8-99E2-75261E4AAA1C}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="CommonSrc/ExternalDB/ExternalDBService.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="CommonSrc/Pages/SearchPage.xaml.cs">
     <Files>
-      <File FileName="CommonSrc/IEIntegration/IEMember.cs" Line="43" Column="33" />
-      <File FileName="CommonSrc/Pages/ProfilePage.xaml" Line="110" Column="1" />
-      <File FileName="CommonSrc/Pages/ProfilePage.xaml.cs" Line="75" Column="14" />
+      <File FileName="CommonSrc/IEIntegration/IEDataSource.cs" Line="55" Column="66" />
+      <File FileName="CommonSrc/Pages/SearchPage.xaml.cs" Line="21" Column="1" />
+      <File FileName="CommonSrc/IEIntegration/IESession.cs" Line="443" Column="127" />
       <File FileName="CommonSrc/Pages/SearchPage.xaml" Line="38" Column="1" />
-      <File FileName="CommonSrc/Pages/SettingsPage.xaml" Line="46" Column="15" />
-      <File FileName="CommonSrc/Pages/SettingsPage.xaml.cs" Line="71" Column="1" />
-      <File FileName="CommonSrc/IEIntegration/IEDataSource.cs" Line="260" Column="10" />
-      <File FileName="CommonSrc/IEIntegration/IESession.cs" Line="68" Column="56" />
-      <File FileName="CommonSrc/Pages/ActiveMembersListPage.xaml.cs" Line="77" Column="44" />
-      <File FileName="CommonSrc/Pages/ActiveMembersListPage.xaml" Line="40" Column="1" />
-      <File FileName="CommonSrc/ExternalDB/ExternalDBService.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

@@ -374,7 +374,7 @@ namespace IE.CommonSrc.IEIntegration
                     string profileName = null;
                     string profileUrl = null;
                     string partialSummary = "";
-                    string imageUrl = "https://www.illicitencounters.com/img/avatars/female_Avatar3.jpg";
+                    string imageUrl = null;// = "https://www.illicitencounters.com/img/avatars/female_Avatar3.jpg";
                     string location = null;
                     string age = null;
 
@@ -439,6 +439,9 @@ namespace IE.CommonSrc.IEIntegration
                                 imageUrl = "https://www.illicitencounters.com" + imageE.FirstOrDefault().Attributes["src"].Value;
 							}
 							_logger.LogInfo("imageUrl = '" + imageUrl + "'");
+                            if ( imageUrl == null ) {
+                                imageUrl = "https://www.illicitencounters.com/img/avatars/female_Avatar3.jpg";  // Last resort
+                            }
 						}
 
                         var divs = item.Descendants("div").Where(x => x.Attributes.Contains("style") && x.Attributes["style"].Value.Contains("margin-left") && x.Attributes["style"].Value.Contains("margin-bottom"));
